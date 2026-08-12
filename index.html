@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Online Pintar</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="glass-card">
+            <div class="header">
+                <h1>Absensi Hari Ini</h1>
+                <p>Silakan lengkapi form dan ambil foto selfie.</p>
+            </div>
+
+            <form id="absenForm" onsubmit="event.preventDefault(); submitAbsen();">
+                <div class="form-group">
+                    <label for="nip">NRP / NPM</label>
+                    <input type="text" id="nip" placeholder="Masukkan NRP atau NPM Anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama Anda" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status Kehadiran</label>
+                    <select id="status" class="form-select" required>
+                        <option value="Hadir">Hadir</option>
+                        <option value="Sakit">Sakit</option>
+                        <option value="Izin">Izin</option>
+                    </select>
+                </div>
+
+                <div class="camera-container">
+                    <div id="cameraPlaceholder" class="camera-placeholder">
+                        <span>Kamera belum aktif</span>
+                    </div>
+                    <video id="videoElement" autoplay playsinline style="display: none;"></video>
+                    <canvas id="canvasElement" style="display: none;"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="button" id="btnStartCamera" class="btn btn-secondary" onclick="startCamera()">Aktifkan Kamera</button>
+                    <button type="button" id="btnGetLocation" class="btn btn-secondary" onclick="getLocation()">Dapatkan Lokasi</button>
+                </div>
+
+                <div id="locationStatus" class="status-badge status-warning">
+                    📍 Lokasi: Belum didapatkan
+                </div>
+                
+                <div id="cameraStatus" class="status-badge status-warning">
+                    📸 Kamera: Belum aktif
+                </div>
+
+                <button type="submit" id="btnSubmit" class="btn btn-primary" disabled>
+                    <span id="btnText">Kirim Absensi</span>
+                    <div id="loadingSpinner" class="spinner" style="display: none;"></div>
+                </button>
+            </form>
+            
+            <div id="resultMessage" class="result-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
