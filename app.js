@@ -1,6 +1,6 @@
 // KONFIGURASI URL GOOGLE APPS SCRIPT
 // Ganti URL di bawah ini dengan URL Web App hasil deploy Anda.
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnB_skWzcJR2MWncyPNLP3IEGAKtlxHt8CvPxyRvwcmaBe7Ng0wsLJwsLhoWBCegQI/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbypsERS8UbBU7mZd8oc9qxjdL247_PkaQt8O91jkzItuasCmmS4WelZSD2xSUrqUolP/exec";
 
 let latitude = null;
 let longitude = null;
