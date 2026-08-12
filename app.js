@@ -90,10 +90,7 @@ function getLocation() {
 
 // Mengirim Data
 async function submitAbsen() {
-    if (GOOGLE_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbwnB_skWzcJR2MWncyPNLP3IEGAKtlxHt8CvPxyRvwcmaBe7Ng0wsLJwsLhoWBCegQI/exec") {
-        alert("PERHATIAN: Anda belum memasukkan URL Google Apps Script di dalam file app.js!");
-        return;
-    }
+
 
     // Ubah status tombol
     btnSubmit.disabled = true;
