@@ -1,6 +1,6 @@
 // KONFIGURASI URL GOOGLE APPS SCRIPT
 // Ganti URL di bawah ini dengan URL Web App hasil deploy Anda.
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbypsERS8UbBU7mZd8oc9qxjdL247_PkaQt8O91jkzItuasCmmS4WelZSD2xSUrqUolP/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0ohGDELNFP5pUrPQp3KXK1v2uDJaxDV1HL_SQoII0ksJR1R9pRQeKFlxd2Xs4OcG0/exec";
 
 let latitude = null;
 let longitude = null;
@@ -9,7 +9,6 @@ let stream = null;
 let isCameraActive = false;
 let isLocationReady = false;
 
-// Elemen DOM
 const video = document.getElementById('videoElement');
 const canvas = document.getElementById('canvasElement');
 const cameraPlaceholder = document.getElementById('cameraPlaceholder');
@@ -24,7 +23,10 @@ const resultMessage = document.getElementById('resultMessage');
 function checkFormStatus() {
     const nip = document.getElementById('nip').value.trim();
     const nama = document.getElementById('nama').value.trim();
-    if (isCameraActive && isLocationReady && nama !== "" && nip !== "") {
+    const kelompok = document.getElementById('kelompok').value.trim();
+    const lokasi_pcm = document.getElementById('lokasi_pcm').value.trim();
+
+    if (isCameraActive && isLocationReady && nama !== "" && nip !== "" && kelompok !== "" && lokasi_pcm !== "") {
         btnSubmit.disabled = false;
     } else {
         btnSubmit.disabled = true;
@@ -34,6 +36,9 @@ function checkFormStatus() {
 // Event listener untuk input
 document.getElementById('nama').addEventListener('input', checkFormStatus);
 document.getElementById('nip').addEventListener('input', checkFormStatus);
+document.getElementById('kelompok').addEventListener('input', checkFormStatus);
+document.getElementById('lokasi_pcm').addEventListener('input', checkFormStatus);
+document.getElementById('peran').addEventListener('change', checkFormStatus);
 document.getElementById('status').addEventListener('change', checkFormStatus);
 
 // Mengaktifkan Kamera
@@ -90,15 +95,11 @@ function getLocation() {
 
 // Mengirim Data
 async function submitAbsen() {
-
-
-    // Ubah status tombol
     btnSubmit.disabled = true;
     btnText.style.display = 'none';
     loadingSpinner.style.display = 'block';
     resultMessage.style.display = 'none';
 
-    // Ambil Gambar dari Video ke Canvas
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const context = canvas.getContext('2d');
@@ -106,14 +107,19 @@ async function submitAbsen() {
     
     const base64Photo = canvas.toDataURL('image/jpeg', 0.7);
     
+    const peran = document.getElementById('peran').value;
     const nip = document.getElementById('nip').value.trim();
     const nama = document.getElementById('nama').value.trim();
+    const kelompok = document.getElementById('kelompok').value.trim();
+    const lokasi_pcm = document.getElementById('lokasi_pcm').value.trim();
     const status = document.getElementById('status').value;
 
-    // Payload disesuaikan dengan kebutuhan script Anda
     const payload = {
+        peran: peran,
         nip: nip,
         nama: nama,
+        kelompok: kelompok,
+        lokasi_pcm: lokasi_pcm,
         status: status,
         latitude: latitude,
         longitude: longitude,
@@ -131,10 +137,8 @@ async function submitAbsen() {
         
         if (result.success) {
             showResult(result.message || "Absensi berhasil disimpan!", "success");
-            // Reset form
-            document.getElementById('nip').value = "";
+            // Reset form sebagian agar mudah jika hp dipakai bareng
             document.getElementById('nama').value = "";
-            document.getElementById('status').value = "Hadir";
             checkFormStatus();
         } else {
             showResult("Gagal: " + (result.message || "Unknown Error"), "error");
@@ -143,7 +147,6 @@ async function submitAbsen() {
         console.error("Error submitting:", error);
         showResult("Terjadi kesalahan jaringan atau CORS.", "error");
     } finally {
-        // Kembalikan status tombol
         btnText.style.display = 'block';
         loadingSpinner.style.display = 'none';
         checkFormStatus();
