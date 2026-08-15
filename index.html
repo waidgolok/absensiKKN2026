@@ -3,13 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Absensi Online Pintar</title>
-    <!-- Google Fonts -->
+    <title>Absensi Online KKN 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+    <style>
+        .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            appearance: none;
+            cursor: pointer;
+        }
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+        }
+        .form-select option {
+            background-color: var(--bg-gradient-end);
+            color: var(--text-main);
+        }
+    </style>
 </head>
 <body>
 
@@ -22,6 +43,14 @@
 
             <form id="absenForm" onsubmit="event.preventDefault(); submitAbsen();">
                 <div class="form-group">
+                    <label for="peran">Peran</label>
+                    <select id="peran" class="form-select" required>
+                        <option value="Mahasiswa">Mahasiswa</option>
+                        <option value="Dosen Pembimbing">Dosen Pembimbing</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="nip">NRP / NPM</label>
                     <input type="text" id="nip" placeholder="Masukkan NRP atau NPM Anda" required>
                 </div>
@@ -31,6 +60,16 @@
                     <input type="text" id="nama" placeholder="Masukkan nama Anda" required>
                 </div>
                 
+                <div class="form-group">
+                    <label for="kelompok">Kelompok KKN</label>
+                    <input type="text" id="kelompok" placeholder="Contoh: Kelompok 1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lokasi_pcm">Lokasi PCM (Tempat KKN)</label>
+                    <input type="text" id="lokasi_pcm" placeholder="Contoh: PCM Bekasi Barat" required>
+                </div>
+
                 <div class="form-group">
                     <label for="status">Status Kehadiran</label>
                     <select id="status" class="form-select" required>
@@ -71,7 +110,7 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
     <script src="app.js"></script>
 </body>
 </html>
+
