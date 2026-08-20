@@ -1,6 +1,5 @@
 // KONFIGURASI URL GOOGLE APPS SCRIPT
-// Ganti URL di bawah ini dengan URL Web App hasil deploy Anda.
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0ohGDELNFP5pUrPQp3KXK1v2uDJaxDV1HL_SQoII0ksJR1R9pRQeKFlxd2Xs4OcG0/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby93YPFe_-tsvSiKJb9IAT5ICjrU4NMcXXjZMEuI5cZZrNYGfPBMQaoqRPgL6Z1vGz-/exec";
 
 let latitude = null;
 let longitude = null;
@@ -38,8 +37,18 @@ document.getElementById('nama').addEventListener('input', checkFormStatus);
 document.getElementById('nip').addEventListener('input', checkFormStatus);
 document.getElementById('kelompok').addEventListener('input', checkFormStatus);
 document.getElementById('lokasi_pcm').addEventListener('input', checkFormStatus);
-document.getElementById('peran').addEventListener('change', checkFormStatus);
 document.getElementById('status').addEventListener('change', checkFormStatus);
+
+// Menampilkan / Menyembunyikan isian Kelas berdasarkan Peran
+document.getElementById('peran').addEventListener('change', function() {
+    const kelasGroup = document.getElementById('kelasGroup');
+    if (this.value === 'Mahasiswa') {
+        kelasGroup.style.display = 'block';
+    } else {
+        kelasGroup.style.display = 'none';
+    }
+    checkFormStatus();
+});
 
 // Mengaktifkan Kamera
 async function startCamera() {
@@ -108,6 +117,9 @@ async function submitAbsen() {
     const base64Photo = canvas.toDataURL('image/jpeg', 0.7);
     
     const peran = document.getElementById('peran').value;
+    // Jika peran Mahasiswa, ambil isi kelas. Jika Dosen, kirimkan teks strip "-"
+    const kelas = (peran === 'Mahasiswa') ? document.getElementById('kelas').value : '-';
+    
     const nip = document.getElementById('nip').value.trim();
     const nama = document.getElementById('nama').value.trim();
     const kelompok = document.getElementById('kelompok').value.trim();
@@ -116,6 +128,7 @@ async function submitAbsen() {
 
     const payload = {
         peran: peran,
+        kelas: kelas,
         nip: nip,
         nama: nama,
         kelompok: kelompok,
